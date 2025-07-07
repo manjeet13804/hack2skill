@@ -4,4 +4,203 @@
     --Brand-500: #7C3AED;
     --Neutral-0: #FFF;
     --Neutral-300: #DEE2E6;
+}
+
+/* Add orbit animation styles */
+.orbit-animation {
+    position: absolute;
+    left: 622px;
+    top: 3424px;
+    width: 658px;
+    height: 688px;
+    z-index: 0;
+}
+
+.orbit {
+    position: absolute;
+    border: 2px dashed rgba(124, 58, 237, 0.3);
+    border-radius: 50%;
+    animation: spin 20s linear infinite;
+    width: 300px;
+    height: 300px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.orbit-2 {
+    width: 400px;
+    height: 400px;
+    animation-duration: 25s;
+    animation-direction: reverse;
+}
+
+.orbit-3 {
+    width: 500px;
+    height: 500px;
+    animation-duration: 30s;
+}
+
+@keyframes spin {
+    from {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Ensure astronaut image stays on top */
+[layer-name="Layer 2"] {
+    position: relative;
+    z-index: 1;
+}
+
+/* 1. Responsive Gallery Grid & Hover Animation */
+.gallery-section {
+  padding: 2rem 0;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 18px;
+  justify-items: center;
+  align-items: center;
+}
+.gallery-grid figure {
+  margin: 0;
+  padding: 0;
+}
+.gallery-img {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 12px;
+  box-shadow: 0 2px 16px rgba(0,0,0,0.18);
+  transition: transform 0.35s cubic-bezier(.4,2,.6,1), box-shadow 0.35s;
+  cursor: pointer;
+  outline: none;
+}
+.gallery-img:hover,
+.gallery-img:focus {
+  transform: scale(1.07) rotate(-2deg);
+  box-shadow: 0 8px 32px 0 rgba(124,58,237,0.22), 0 2px 16px rgba(0,0,0,0.18);
+  z-index: 2;
+  outline: 2px solid var(--Brand-500);
+}
+
+/* 2. Timeline Slider Styles */
+.timeline-section {
+  padding: 2rem 0;
+}
+.timeline-title {
+  color: var(--Brand-500);
+  font-size: 2rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+.timeline-slider {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  overflow-x: auto;
+  outline: none;
+}
+.timeline-list {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  flex: 1;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+}
+.timeline-item {
+  min-width: 220px;
+  background: rgba(124,58,237,0.08);
+  border-radius: 16px;
+  padding: 1rem 1.5rem;
+  color: var(--Neutral-0);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  transition: background 0.3s, color 0.3s;
+  outline: none;
+}
+.timeline-item.active,
+.timeline-item:focus {
+  background: var(--Brand-500);
+  color: #fff;
+}
+.timeline-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.timeline-date {
+  font-size: 1rem;
+  opacity: 0.85;
+}
+.timeline-nav {
+  background: var(--Brand-500);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 2.5rem;
+  height: 2.5rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.timeline-nav:focus {
+  outline: 2px solid #fff;
+  background: #5b21b6;
+}
+.timeline-progress {
+  height: 4px;
+  background: linear-gradient(90deg, var(--Brand-500) 60%, #a78bfa 100%);
+  border-radius: 2px;
+  margin: 1rem 0 0 0;
+  width: 100%;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+  transition: width 0.4s cubic-bezier(.4,2,.6,1);
+}
+
+/* 3. Responsive Adjustments */
+@media (max-width: 900px) {
+  .gallery-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
   }
+  .timeline-list {
+    gap: 1rem;
+  }
+  .timeline-item {
+    min-width: 160px;
+    padding: 0.7rem 1rem;
+  }
+}
+@media (max-width: 600px) {
+  .gallery-section, .timeline-section {
+    padding: 1rem 0.5rem;
+  }
+  .timeline-title {
+    font-size: 1.2rem;
+  }
+  .timeline-item {
+    font-size: 0.95rem;
+    padding: 0.5rem 0.7rem;
+  }
+}
+
+/* Accessibility: focus-visible for keyboard users */
+.gallery-img:focus-visible,
+.timeline-item:focus-visible,
+.timeline-nav:focus-visible {
+  outline: 2px solid var(--Brand-500);
+  outline-offset: 2px;
+}

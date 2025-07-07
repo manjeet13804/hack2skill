@@ -25,3 +25,59 @@ try {
     console.error('Extraction failed:', err.message);
     process.exit(1);
 }
+
+// Timeline slider logic for accessibility, keyboard, and touch support
+document.addEventListener('DOMContentLoaded', function () {
+  // Timeline slider
+  const slider = document.querySelector('.timeline-slider');
+  if (slider) {
+    const items = slider.querySelectorAll('.timeline-item');
+    const prevBtn = slider.querySelector('.timeline-nav.prev');
+    const nextBtn = slider.querySelector('.timeline-nav.next');
+    let current = 0;
+
+    function updateSlider(idx) {
+      items.forEach((item, i) => {
+        item.classList.toggle('active', i === idx);
+        if (i === idx) item.setAttribute('tabindex', '0');
+        else item.setAttribute('tabindex', '-1');
+      });
+      // Progress bar (optional)
+      const progress = document.querySelector('.timeline-progress');
+      if (progress) {
+        progress.style.width = `${((idx + 1) / items.length) * 100}%`;
+      }
+    }
+
+    function goto(idx) {
+      current = (idx + items.length) % items.length;
+      updateSlider(current);
+      items[current].focus();
+      items[current].scrollIntoView({ behavior: 'smooth', inline: 'center' });
+    }
+
+    prevBtn && prevBtn.addEventListener('click', () => goto(current - 1));
+    nextBtn && nextBtn.addEventListener('click', () => goto(current + 1));
+
+    slider.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') goto(current - 1);
+      if (e.key === 'ArrowRight') goto(current + 1);
+    });
+
+    // Touch support
+    let startX = null;
+    slider.addEventListener('touchstart', (e) => {
+      startX = e.touches[0].clientX;
+    });
+    slider.addEventListener('touchend', (e) => {
+      if (startX !== null) {
+        const dx = e.changedTouches[0].clientX - startX;
+        if (dx > 40) goto(current - 1);
+        if (dx < -40) goto(current + 1);
+        startX = null;
+      }
+    });
+
+    updateSlider(current);
+  }
+});
